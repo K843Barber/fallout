@@ -1,13 +1,17 @@
 '''
 TODO:
 Fix order of 0xF
-Make sure all words are included                                TENTATIVE
+Make sure all words are included                                CHECK
 Add > on last line to the right                                 CHECK
 Add extra guesses at the bottom
 Implement it so that the screen refreshes after each guess      CHECK
-Remove a guess counter
-print blocks instead of numbers
+Remove a guess counter                                          CHECK
+print blocks instead of numbers                                 CHECK
 Fix the counter thing so > leaves after counter zero or match
+Make sure keyword isn't repeated
+Add content to unlock screen
+Make dynamic with new words
+Tidy code to be more readable
 '''
 
 ########################## Imports ##########################
@@ -15,11 +19,11 @@ import numpy as np
 import pandas as pd
 import shutil, sys, os
 from time import sleep
-from hex_gen import hex_generator
-from access_page import access_granted
+from src.hex_gen import hex_generator
+from src.access_page import access_granted
 
 ########################## Load file ##########################
-microsoft_word = np.loadtxt('words.txt', dtype='str')
+microsoft_word = np.loadtxt('data/words.txt', dtype='str')
 
 ########################## Terminal size ##########################
 # print(shutil.get_terminal_size((80, 20))) # Terminal size
