@@ -9,7 +9,6 @@ Remove a guess counter                                          CHECK
 print blocks instead of numbers                                 CHECK
 Fix the counter thing so > leaves after counter zero or match
 Make sure keyword isn't repeated
-Add content to unlock screen
 Make dynamic with new words
 Tidy code to be more readable
 '''
@@ -25,8 +24,6 @@ from src.access_page import access_granted
 ########################## Load file ##########################
 microsoft_word = np.loadtxt('data/words.txt', dtype='str')
 
-########################## Terminal size ##########################
-# print(shutil.get_terminal_size((80, 20))) # Terminal size
 ########################## Text ##########################
 words = "ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL"
 words1 = "ENTER PASSWORD NOW"
@@ -86,17 +83,10 @@ def header(countdown, correct):
 
 
 
-##### words that are length 7. Check how many
+######################### words that are length 7. Check how many ##########################
+############################################################################################
 L7 = [i for i in microsoft_word if len(i) == 7]
-L7_count = 0
-for i in microsoft_word:
-    if len(i) == 7:
-        L7_count += 1
-
-L7_count=0
 L7 = [i for i in L7 if "'" not in i]
-
-
 
 ######################## Collect the 7 letter words ending in 'ing' ########################
 ############################################################################################
@@ -109,7 +99,6 @@ for i in L7:
 
 ######################### Sample correct word ##################################################
 ################################################################################################
-
 ##### Collect potential matches
 potential_matches = []
 length_match = 0
@@ -158,8 +147,6 @@ left, right = printout[:splitter], printout[splitter:]
 some_array = [left, right]
 
 ############################## Generate hex tags ################################
-
-
 #################################################################################
 logs = hex_generator()
 logs1 = []
@@ -202,16 +189,27 @@ os.system('clear')
 screen_printout()
 
 def main_loop():
+    #### Preset conditions
     correct = False
     while_breaker = True
-
     guess_counter = 4
-    while (while_breaker == True) and (guess_counter != 0):
-        guess = input(">")
 
+    while (while_breaker == True) and (guess_counter != 0):
+
+        guess = input(">")
         guess = guess.upper()
+
+        if len(guess) != 7:
+            matching = 0
+            the_fail_guess = ">" + guess
+            how_many_match = ">"+str(matching)+"/7 correct"
+            fail_vars = [the_fail_guess, ">Entry denied", how_many_match]
+            guess_counter-=1
+            header(guess_counter, correct)
+
+            failure(fail_vars)
         
-        if guess != Keyword:
+        elif guess != Keyword :
             matching = 0
             for i in range(7):
                 if guess[i] == Keyword[i]:
@@ -231,7 +229,7 @@ def main_loop():
         if guess == Keyword:
             the_guess = ">" + guess
             vars_include = [the_guess, ">Exact match!", ">Please wait", ">while system", ">is accessed."]
-            guess_counter-=1
+            # guess_counter-=1
 
             correct = True
             header(guess_counter, correct)
@@ -250,7 +248,6 @@ def main_loop():
 
 if __name__ == '__main__':
     main_loop()
-# main_loop()
 
 
 

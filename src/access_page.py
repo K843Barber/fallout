@@ -1,3 +1,10 @@
+'''
+TODO:
+Add more details here (check what Fallout has)
+'''
+
+
+
 import os, shutil, sys
 from time import sleep
 
