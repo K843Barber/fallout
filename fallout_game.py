@@ -26,7 +26,7 @@ microsoft_word = np.loadtxt('words.txt', dtype='str')
 ########################## Text ##########################
 words = "ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL"
 words1 = "ENTER PASSWORD NOW"
-words2 = "4 ATTEMPT(S) LEFT: 1 2 3 4"
+words2 = "4 ATTEMPT(S) LEFT: \u2585 \u2585 \u2585 \u2585"
 random_characters = '!@#$%^&*()_<>'
 Keyword = 'Heading'
 
@@ -61,13 +61,13 @@ def header(countdown, correct):
     if correct == False:
 
         if countdown == 4:
-            words2 = "4 ATTEMPT(S) LEFT: 1 2 3 4"
+            words2 = "4 ATTEMPT(S) LEFT: \u2585 \u2585 \u2585 \u2585"
         elif countdown == 3:
-            words2 = "3 ATTEMPT(S) LEFT: 1 2 3"
+            words2 = "3 ATTEMPT(S) LEFT: \u2585 \u2585 \u2585"
         elif countdown == 2:
-            words2 = "2 ATTEMPT(S) LEFT: 1 2"
+            words2 = "2 ATTEMPT(S) LEFT: \u2585 \u2585"
         elif countdown == 1:
-            words2 = "1 ATTEMPT(S) LEFT: 1"
+            words2 = "1 ATTEMPT(S) LEFT: \u2585"
         else:
             words2 = "NO ATTEMPTS LEFT!"
     else:
