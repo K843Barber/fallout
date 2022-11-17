@@ -20,7 +20,6 @@ import shutil, sys, os
 from time import sleep
 from src.hex_gen import hex_generator
 from src.access_page import access_granted
-from output_functions import *
 import random
 
 ########################## Load file ##########################
@@ -31,16 +30,10 @@ words = "ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL"
 words1 = "ENTER PASSWORD NOW"
 words2 = "4 ATTEMPT(S) LEFT: \u2585 \u2585 \u2585 \u2585"
 random_characters = '!@#$%^&*()_<>'
-# Keyword = 'Heading'
-
-
-# [print(i) for i in microsoft_word if len(i) == 6]
-# Keyword = np.random.choice(microsoft_word, 1)
-# print(Keyword)
 spacejam = ' '*10
 
 ########################## Variables ##########################
-N = 60
+N = 60 # Number of rows/2
 
 ########################## Functions ##########################
 def typewriting(word_input):
