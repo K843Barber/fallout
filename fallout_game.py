@@ -8,8 +8,8 @@ Implement it so that the screen refreshes after each guess      CHECK
 Remove a guess counter                                          CHECK
 print blocks instead of numbers                                 CHECK
 Fix the counter thing so > leaves after counter zero or match
-Make sure keyword isn't repeated
-Make dynamic with new words
+Make sure keyword isn't repeated                                CHECK
+Make dynamic with new words                                     CHECK
 Tidy code to be more readable
 '''
 
@@ -20,6 +20,8 @@ import shutil, sys, os
 from time import sleep
 from src.hex_gen import hex_generator
 from src.access_page import access_granted
+from output_functions import *
+import random
 
 ########################## Load file ##########################
 microsoft_word = np.loadtxt('data/words.txt', dtype='str')
@@ -29,8 +31,12 @@ words = "ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL"
 words1 = "ENTER PASSWORD NOW"
 words2 = "4 ATTEMPT(S) LEFT: \u2585 \u2585 \u2585 \u2585"
 random_characters = '!@#$%^&*()_<>'
-Keyword = 'Heading'
+# Keyword = 'Heading'
 
+
+# [print(i) for i in microsoft_word if len(i) == 6]
+# Keyword = np.random.choice(microsoft_word, 1)
+# print(Keyword)
 spacejam = ' '*10
 
 ########################## Variables ##########################
@@ -52,9 +58,11 @@ def screen_printout():
     typewriting(words2)
     print('\n')
 
-    for i, j in zip(range(0, len(left)-30, 30), range(0, N-2, 2)):
-        print(f'{logs[j]} {left[i:i+30]}{spacejam}{logs[j+1]} {right[i:i+30]}')
-    print(f'{logs[-2]} {left[-30:]}{spacejam}{logs[-1]} {right[-30:]}   ', end='')
+    linebreaker = 30
+
+    for i, j in zip(range(0, len(left)-linebreaker, linebreaker), range(0, N-2, 2)):
+        print(f'{logs[j]} {left[i:i+linebreaker]}{spacejam}{logs[j+1]} {right[i:i+linebreaker]}')
+    print(f'{logs[-2]} {left[-linebreaker:]}{spacejam}{logs[-1]} {right[-linebreaker:]}   ', end='')
 
 def header(countdown, correct):
     os.system('clear')
@@ -81,83 +89,6 @@ def header(countdown, correct):
     print(words2)
     print()
 
-
-
-######################### words that are length 7. Check how many ##########################
-############################################################################################
-L7 = [i for i in microsoft_word if len(i) == 7]
-L7 = [i for i in L7 if "'" not in i]
-
-######################## Collect the 7 letter words ending in 'ing' ########################
-############################################################################################
-L7_subset = []
-for i in L7:
-    if i[-3:] == 'ing':
-        L7_subset.append(i)
-
-
-
-######################### Sample correct word ##################################################
-################################################################################################
-##### Collect potential matches
-potential_matches = []
-length_match = 0
-
-for i in L7_subset[:]:
-    for j, k in zip(i, range(0,len(i))):
-        if j == Keyword[k]:
-            length_match+=1
-    if length_match>=5:
-        potential_matches.append(i.upper())
-    length_match=0
-
-Keyword = Keyword.upper()
-
-######################### collect all guess words (11 in all) #########################
-#######################################################################################
-guess_words = [np.random.choice(potential_matches, 8), np.random.choice(L7,2), [Keyword]]
-guess_words = [i.upper() for g in guess_words for i in g]
-
-
-
-
-
-######################## Randomly place words ########################
-######################################################################
-template_ = []
-array_insert_random_index = np.random.choice(np.setdiff1d(range(50, 850),1), 11)
-sorted_array_insert_random_index = np.array(np.sort(array_insert_random_index))
-
-
-cycle_through_list = 0
-for i in range(1, 870):
-    if i == sorted_array_insert_random_index[cycle_through_list]:
-        template_.append(guess_words[cycle_through_list])
-        if cycle_through_list==10:
-            pass
-        else:
-            cycle_through_list+=1
-    else:
-        template_.append(random_characters[np.random.choice(len(random_characters),1)[0]])
-
-
-printout = " ".join(template_)
-splitter = int((len(printout)+1)/2)
-left, right = printout[:splitter], printout[splitter:]
-some_array = [left, right]
-
-############################## Generate hex tags ################################
-#################################################################################
-logs = hex_generator()
-logs1 = []
-spacer = [' '*65]*32
-for i, j in zip(logs, spacer):
-    logs1.append(i)
-    logs1.append(j)
-
-
-left, right = left[:900], right[:900]
-
 def failure(fail_vars):
     for i, j in zip(range(0, len(left)-150, 30), range(0, N-10, 2)):
         print(f'{logs[j]} {left[i:i+30]}{spacejam}{logs[j+1]} {right[i:i+30]}')
@@ -165,10 +96,8 @@ def failure(fail_vars):
     for i, j, k in zip(range(len(left)-150, len(left)-60, 30), range(N-10, N-4, 2), range(3)):
         print(f'{logs[j]} {left[i:i+30]}{spacejam}{logs[j+1]} {right[i:i+30]}   {fail_vars[k]}')
 
-    print(f'{logs[-2]} {left[-60:-30]}{spacejam}{logs[-2]} {right[-60:-30]}   ')
-    print(f'{logs[-1]} {left[-30:]}{spacejam}{logs[-1]} {right[-30:]}   ', end='')
-
-
+    print(f'{logs[-4]} {left[-60:-30]}{spacejam}{logs[-3]} {right[-60:-30]}   ')
+    print(f'{logs[-2]} {left[-30:]}{spacejam}{logs[-1]} {right[-30:]}   ', end='')
 
 def success(vars_include):
     for i, j in zip(range(0, len(left)-210, 30), range(0, N-14, 2)):
@@ -183,10 +112,83 @@ def success(vars_include):
 
 
 
+######################### words that are length 7. Check how many ##########################
+############################################################################################
+L7 = [i for i in microsoft_word if len(i) == 5]
+L7_subset = [i for i in L7 if "'" not in i]
+Keyword = np.random.choice(L7_subset, 1)[0]
+
+######################## Collect the 7 letter words ending in 'ing' ########################
+############################################################################################
+L7_subset = np.unique(L7_subset)
+
+################################### Sample correct word ########################################
+################################################################################################
+##### Collect potential matches
+potential_matches = []
+length_match = 0
+
+for i in L7_subset:
+    for j, k in zip(i, range(0,len(i))):
+        if j == Keyword[k]:
+            length_match+=1
+    if length_match>=np.floor(len(Keyword)/2):
+        potential_matches.append(i.upper())
+    length_match=0
+
+Keyword = Keyword.upper()
+
+######################### collect all guess words (11 in all) #########################
+#######################################################################################
+# guess_words = np.unique(guess_words)
+
+guess_words = [np.random.choice(potential_matches, 8), np.random.choice(L7_subset,2), [Keyword]]
+guess_words = [i.upper() for g in guess_words for i in g]
+random.shuffle(guess_words)
+
+
+######################## Randomly place words ########################
+######################################################################
+#### I think this is where the fine-tuning of the output will be ####
+template_ = []
+array_insert_random_index = np.random.choice(np.setdiff1d(range(50, 1600),1), 11)
+sorted_array_insert_random_index = np.array(np.sort(array_insert_random_index))
+
+
+cycle_through_list = 0
+for i in range(0, 1800):
+    if i == sorted_array_insert_random_index[cycle_through_list]:
+        template_.append(guess_words[cycle_through_list])
+        if cycle_through_list==10:
+            pass
+        else:
+            cycle_through_list+=1
+    else:
+        template_.append(random_characters[np.random.choice(len(random_characters),1)[0]])
+
+
+printout = "".join(template_)
+splitter = int((len(printout)+1)/2)
+left, right = printout[:splitter], printout[splitter-1:]
+some_array = [left, right]
+
+
+############################## Generate hex tags ################################
+#################################################################################
+logs = hex_generator()
+logs1, spacer = [], [' '*65]*30
+
+for i, j in zip(logs, spacer):
+    logs1.append(i)
+    logs1.append(j)
+
+left, right = left[:900], right[:900]
+
+
+
+
 ########################### Main feature running ############################
 #############################################################################
-os.system('clear')
-screen_printout()
 
 def main_loop():
     #### Preset conditions
@@ -199,10 +201,10 @@ def main_loop():
         guess = input(">")
         guess = guess.upper()
 
-        if len(guess) != 7:
+        if len(guess) != len(Keyword):
             matching = 0
             the_fail_guess = ">" + guess
-            how_many_match = ">"+str(matching)+"/7 correct"
+            how_many_match = ">"+str(matching)+"/"+str(len(Keyword))+" correct"
             fail_vars = [the_fail_guess, ">Entry denied", how_many_match]
             guess_counter-=1
             header(guess_counter, correct)
@@ -211,14 +213,14 @@ def main_loop():
         
         elif guess != Keyword :
             matching = 0
-            for i in range(7):
+            for i in range(len(Keyword)):
                 if guess[i] == Keyword[i]:
                     matching += 1
                 else:
                     pass
 
             the_fail_guess = ">" + guess
-            how_many_match = ">"+str(matching)+"/7 correct"
+            how_many_match = ">"+str(matching)+"/"+str(len(Keyword))+" correct"
             fail_vars = [the_fail_guess, ">Entry denied", how_many_match]
             guess_counter-=1
             header(guess_counter, correct)
@@ -247,6 +249,8 @@ def main_loop():
 
 
 if __name__ == '__main__':
+    os.system('clear')
+    screen_printout()
     main_loop()
 
 
