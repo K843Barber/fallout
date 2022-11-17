@@ -11,4 +11,3 @@ Run: `python3 fallout_game.py`
 Play!
 
 
-(Currently only acepting 7 letter words, otherwise crashes out)
