@@ -16,98 +16,20 @@ Tidy code to be more readable
 ########################## Imports ##########################
 import numpy as np
 import pandas as pd
-import shutil, sys, os
+import shutil, sys, os, random
 from time import sleep
-from src.hex_gen import hex_generator
+
 from src.access_page import access_granted
-import random
+from src.output_function import *
+from src.words_vars import *
+
 
 ########################## Load file ##########################
 microsoft_word = np.loadtxt('data/words.txt', dtype='str')
 
-########################## Text ##########################
-words = "ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL"
-words1 = "ENTER PASSWORD NOW"
-words2 = "4 ATTEMPT(S) LEFT: \u2585 \u2585 \u2585 \u2585"
-random_characters = '!@#$%^&*()_<>'
-spacejam = ' '*10
-
-########################## Variables ##########################
-N = 60 # Number of rows/2
-
-########################## Functions ##########################
-def typewriting(word_input):
-    for char in word_input:
-        sleep(0.01)
-        sys.stdout.write(char)
-        sys.stdout.flush()
-
-
-def screen_printout():
-    typewriting(words)
-    print()
-    typewriting(words1)
-    print('\n')
-    typewriting(words2)
-    print('\n')
-
-    linebreaker = 30
-
-    for i, j in zip(range(0, len(left)-linebreaker, linebreaker), range(0, N-2, 2)):
-        print(f'{logs[j]} {left[i:i+linebreaker]}{spacejam}{logs[j+1]} {right[i:i+linebreaker]}')
-    print(f'{logs[-2]} {left[-linebreaker:]}{spacejam}{logs[-1]} {right[-linebreaker:]}   ', end='')
-
-def header(countdown, correct):
-    os.system('clear')
-
-    if correct == False:
-
-        if countdown == 4:
-            words2 = "4 ATTEMPT(S) LEFT: \u2585 \u2585 \u2585 \u2585"
-        elif countdown == 3:
-            words2 = "3 ATTEMPT(S) LEFT: \u2585 \u2585 \u2585"
-        elif countdown == 2:
-            words2 = "2 ATTEMPT(S) LEFT: \u2585 \u2585"
-        elif countdown == 1:
-            words2 = "1 ATTEMPT(S) LEFT: \u2585"
-        else:
-            words2 = "NO ATTEMPTS LEFT!"
-    else:
-        words2 = "ACCESS GRANTED!"
-
-
-    print(words)
-    print(words1)
-    print()
-    print(words2)
-    print()
-
-def failure(fail_vars):
-    for i, j in zip(range(0, len(left)-150, 30), range(0, N-10, 2)):
-        print(f'{logs[j]} {left[i:i+30]}{spacejam}{logs[j+1]} {right[i:i+30]}')
-
-    for i, j, k in zip(range(len(left)-150, len(left)-60, 30), range(N-10, N-4, 2), range(3)):
-        print(f'{logs[j]} {left[i:i+30]}{spacejam}{logs[j+1]} {right[i:i+30]}   {fail_vars[k]}')
-
-    print(f'{logs[-4]} {left[-60:-30]}{spacejam}{logs[-3]} {right[-60:-30]}   ')
-    print(f'{logs[-2]} {left[-30:]}{spacejam}{logs[-1]} {right[-30:]}   ', end='')
-
-def success(vars_include):
-    for i, j in zip(range(0, len(left)-210, 30), range(0, N-14, 2)):
-        print(f'{logs[j]} {left[i:i+30]}{spacejam}{logs[j+1]} {right[i:i+30]}')
-
-    for i, j, k in zip(range(len(left)-210, len(left)-60, 30), range(N-14, N-4, 2), range(5)):
-        print(f'{logs[j]} {left[i:i+30]}{spacejam}{logs[j+1]} {right[i:i+30]}   {vars_include[k]}')
-
-
-    print(f'{logs[-4]} {left[-60:-30]}{spacejam}{logs[-3]} {right[-60:-30]}   ')
-    print(f'{logs[-2]} {left[-30:]}{spacejam}{logs[-1]} {right[-30:]}   ')
-
-
-
 ######################### words that are length 7. Check how many ##########################
 ############################################################################################
-L7 = [i for i in microsoft_word if len(i) == 5]
+L7 = [i for i in microsoft_word if len(i) == 7]
 L7_subset = [i for i in L7 if "'" not in i]
 Keyword = np.random.choice(L7_subset, 1)[0]
 
@@ -143,11 +65,11 @@ random.shuffle(guess_words)
 ######################## Randomly place words ########################
 ######################################################################
 #### I think this is where the fine-tuning of the output will be ####
-template_ = []
 array_insert_random_index = np.random.choice(np.setdiff1d(range(50, 1600),1), 11)
 sorted_array_insert_random_index = np.array(np.sort(array_insert_random_index))
 
 
+template_ = []
 cycle_through_list = 0
 for i in range(0, 1800):
     if i == sorted_array_insert_random_index[cycle_through_list]:
@@ -163,17 +85,6 @@ for i in range(0, 1800):
 printout = "".join(template_)
 splitter = int((len(printout)+1)/2)
 left, right = printout[:splitter], printout[splitter-1:]
-some_array = [left, right]
-
-
-############################## Generate hex tags ################################
-#################################################################################
-logs = hex_generator()
-logs1, spacer = [], [' '*65]*30
-
-for i, j in zip(logs, spacer):
-    logs1.append(i)
-    logs1.append(j)
 
 left, right = left[:900], right[:900]
 
@@ -200,7 +111,7 @@ def main_loop():
             how_many_match = ">"+str(matching)+"/"+str(len(Keyword))+" correct"
             fail_vars = [the_fail_guess, ">Entry denied", how_many_match]
             guess_counter-=1
-            header(guess_counter, correct)
+            header(guess_counter, correct, words, words1, words2)
 
             failure(fail_vars)
         
@@ -216,19 +127,19 @@ def main_loop():
             how_many_match = ">"+str(matching)+"/"+str(len(Keyword))+" correct"
             fail_vars = [the_fail_guess, ">Entry denied", how_many_match]
             guess_counter-=1
-            header(guess_counter, correct)
+            header(guess_counter, correct, words, words1, words2)
 
-            failure(fail_vars)
+            failure(fail_vars, left, right, logs, spacejam, N)
+
 
 
         if guess == Keyword:
             the_guess = ">" + guess
             vars_include = [the_guess, ">Exact match!", ">Please wait", ">while system", ">is accessed."]
-            # guess_counter-=1
 
             correct = True
-            header(guess_counter, correct)
-            success(vars_include)
+            header(guess_counter, correct, words, words1, words2)
+            success(vars_include, left, right, logs, spacejam, N)
             while_breaker = False
 
             sleep(3)
@@ -243,7 +154,7 @@ def main_loop():
 
 if __name__ == '__main__':
     os.system('clear')
-    screen_printout()
+    screen_printout(left, right, words, words1, words2, N, logs, spacejam)
     main_loop()
 
 
