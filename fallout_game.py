@@ -113,7 +113,7 @@ def main_loop():
             guess_counter-=1
             header(guess_counter, correct, words, words1, words2)
 
-            failure(fail_vars)
+            failure(fail_vars, left, right, logs, spacejam, N)
         
         elif guess != Keyword :
             matching = 0

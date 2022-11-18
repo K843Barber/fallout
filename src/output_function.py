@@ -1,7 +1,5 @@
 import sys, os
 from time import sleep
-# from .hex_gen import hex_generator
-# from .words_vars import *
 import numpy as np
 
 
@@ -68,12 +66,8 @@ def header(countdown, correct, w0, w1, w2):
     else:
         w2 = "ACCESS GRANTED!"
 
+    print(f'{w0}\n{w1}\n\n{w2}\n')
 
-    print(w0)
-    print(w1)
-    print()
-    print(w2)
-    print()
 
 def failure(fail_vars, left, right, logs, spacejam, N):
     for i, j in zip(range(0, len(left)-150, 30), range(0, N-10, 2)):
@@ -91,7 +85,6 @@ def success(vars_include, left, right, logs, spacejam, N):
 
     for i, j, k in zip(range(len(left)-210, len(left)-60, 30), range(N-14, N-4, 2), range(5)):
         print(f'{logs[j]} {left[i:i+30]}{spacejam}{logs[j+1]} {right[i:i+30]}   {vars_include[k]}')
-
 
     print(f'{logs[-4]} {left[-60:-30]}{spacejam}{logs[-3]} {right[-60:-30]}   ')
     print(f'{logs[-2]} {left[-30:]}{spacejam}{logs[-1]} {right[-30:]}   ')

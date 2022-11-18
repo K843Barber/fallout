@@ -10,8 +10,4 @@ spacejam = ' '*10
 N=60
 
 logs = hex_generator(N)
-# logs1, spacer = [], [' '*65]*30
 
-# for i, j in zip(logs, spacer):
-#     logs1.append(i)
-#     logs1.append(j)
