@@ -89,3 +89,36 @@ def success(vars_include, left, right, logs, spacejam, N):
     print(f'{logs[-4]} {left[-60:-30]}{spacejam}{logs[-3]} {right[-60:-30]}   ')
     print(f'{logs[-2]} {left[-30:]}{spacejam}{logs[-1]} {right[-30:]}   ')
 
+
+def guess_selection(the_words, Keyword):
+
+    potential_matches, other = [], []
+    length_match = 0
+
+    for i in the_words:
+        for j, k in zip(i, range(0,len(i))):
+            if j == Keyword[k]:
+                length_match+=1
+        if length_match>=np.floor(len(Keyword)/2):
+            potential_matches.append(i)
+        length_match=0
+
+    subset_to_not_match = [potential_matches, Keyword]
+    subset_to_not_match = [i for g in subset_to_not_match for i in g]
+
+    for i in the_words:
+        if i in subset_to_not_match:
+            pass
+        else:
+            other.append(i)
+
+    return potential_matches, Keyword, other, subset_to_not_match
+
+def collect_subset(wordlist, letter_length):
+    L7 = [i for i in wordlist if len(i) == letter_length]
+    L7_subset = [i for i in L7 if "'" not in i]
+    L7_subset = [i.upper() for i in L7_subset]
+    Keyword = np.random.choice(L7_subset, 1)[0]
+    L7_subset = np.unique(L7_subset)
+    
+    return Keyword, L7_subset

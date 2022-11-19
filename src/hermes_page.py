@@ -3,8 +3,6 @@ TODO:
 Add more details here (check what Fallout has)
 '''
 
-
-
 import os, shutil, sys
 from time import sleep
 
@@ -27,13 +25,12 @@ def starting_point(w):
     return blank_spaces
 
 
-def access_granted():
+def hermes_granted():
     os.system("clear")
 
     words = "ROBCO INDUSTRIES UNIFIED OPERATING SYSTEM"
     words1 = "COPYRIGHT 2075-2077 ROBCO INDUSTRIES"
-    words2 = "-Server 1-"
-
+    words2 = "-Server 6-"
 
     blank_spaces1 = starting_point(words)
     blank_spaces2 = starting_point(words1)
@@ -43,18 +40,22 @@ def access_granted():
     second_line = blank_spaces2 + words1 + blank_spaces2
     third_line = blank_spaces3 + words2 + blank_spaces3
 
-
     typewriting(first_line)
     typewriting(second_line)
     typewriting(third_line)
 
-    personal_terminal = 'Personal Terminal "Proto-Boy" Manufactured by RobCo"'
-    print('\n')
-    print(personal_terminal)
-    # print('Personal Terminal "Proto-Boy" Manufactured by RobCo"')
-    print('_'*len(personal_terminal))
-    print()
-
-
-
-# access_granted()
+    hermes_terminal0 = 'Hermes Communications, Inc.'
+    hermes_terminal1 = 'Black Mountain Submatrix'
+    hermes_terminal2 = 'System Online'
+    fourth_line = '_'*len(hermes_terminal0)
+    print(f'\n{hermes_terminal0}\n{hermes_terminal1}\n{hermes_terminal2}')
+    print(fourth_line)
+ 
+    print(f'\n> Marcus made me type this')
+    print(f"> It's a radio station!")
+    print("> On the air!")
+    print("> The elite!")
+    print("> Alone at last")
+    print("> Safe!")
+    print("> Lucky!")
+ 
