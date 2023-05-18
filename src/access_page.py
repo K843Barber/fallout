@@ -54,6 +54,8 @@ def access_granted():
     # print('Personal Terminal "Proto-Boy" Manufactured by RobCo"')
     print('_'*len(personal_terminal))
     print()
+    print(" > New Canaan Branch Proposal")
+    print(" > Re: Henry Jamison")
 
 
 
