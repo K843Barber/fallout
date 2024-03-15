@@ -4,10 +4,10 @@
 ## Setup
 
 Steps to setup are:
-    - Clone it
-    - Enter environment: `source bin/activate` from main directory
-    - `pip3 install -r requirements.txt`
-    - `python3 fallout_game.py`
+    1. Clone it
+    2. Enter environment: `source bin/activate` from main directory
+    3. `pip3 install -r requirements.txt`
+    4. `python3 fallout_game.py`
 
 ## Usage
 
