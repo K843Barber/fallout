@@ -15,8 +15,7 @@ Tidy code to be more readable
 
 ########################## Imports ##########################
 import numpy as np
-import pandas as pd
-import shutil, sys, os, random
+import os, random
 from time import sleep
 
 from src.access_page import access_granted
