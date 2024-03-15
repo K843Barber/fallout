@@ -1,0 +1,15 @@
+[project]
+requires-python = ">=3.10"
+
+[tool.riff]
+line-length = 90
+indent-width = 4
+
+[tool.ruff.int]
+extend-select=[
+    "E501",
+    "D"
+    ]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

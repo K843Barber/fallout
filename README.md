@@ -15,5 +15,5 @@ Simple, run the command above and that's it
 ## TODO
 
     - Add more scenarios
-    - Tidy up scripts
+    - Tidy up scripts -> describe functions, refactor
 

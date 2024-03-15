@@ -26,6 +26,7 @@ def hex_generator(N):
     return logs
 
 
+# Used in multiple places, make a helper function
 def typewriting(word_input):
     for char in word_input:
         sleep(0.01)
@@ -33,6 +34,7 @@ def typewriting(word_input):
         sys.stdout.flush()
 
 
+# Needs a rewrite
 def screen_printout(arr_left, arr_right, w0, w1, w2, N, logs, spacejam):
     typewriting(w0)
     print()
@@ -51,7 +53,7 @@ def screen_printout(arr_left, arr_right, w0, w1, w2, N, logs, spacejam):
 def header(countdown, correct, w0, w1, w2):
     os.system('clear')
 
-    if correct == False:
+    if correct == False: # Better way to do this statement
 
         if countdown == 4:
             w2 = "4 ATTEMPT(S) LEFT: \u2585 \u2585 \u2585 \u2585"
@@ -69,6 +71,7 @@ def header(countdown, correct, w0, w1, w2):
     print(f'{w0}\n{w1}\n\n{w2}\n')
 
 
+# has to be a nicer way to write this
 def failure(fail_vars, left, right, logs, spacejam, N):
     for i, j in zip(range(0, len(left)-150, 30), range(0, N-10, 2)):
         print(f'{logs[j]} {left[i:i+30]}{spacejam}{logs[j+1]} {right[i:i+30]}')
@@ -79,6 +82,7 @@ def failure(fail_vars, left, right, logs, spacejam, N):
     print(f'{logs[-4]} {left[-60:-30]}{spacejam}{logs[-3]} {right[-60:-30]}   ')
     print(f'{logs[-2]} {left[-30:]}{spacejam}{logs[-1]} {right[-30:]}   ', end='')
 
+# perhaps merge with above function to minimise DRY
 def success(vars_include, left, right, logs, spacejam, N):
     for i, j in zip(range(0, len(left)-210, 30), range(0, N-14, 2)):
         print(f'{logs[j]} {left[i:i+30]}{spacejam}{logs[j+1]} {right[i:i+30]}')

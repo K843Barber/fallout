@@ -3,19 +3,19 @@ TODO:
 Add more details here (check what Fallout has)
 '''
 
-
-
 import os, shutil, sys
 from time import sleep
 
+
 screen_size_mid = int(shutil.get_terminal_size((80, 20))[0]/2) # Terminal size
 
-
+# Used in multiple places, make a helper function
 def typewriting(word_input):
     for char in word_input:
         sleep(0.005)
         sys.stdout.write(char)
         sys.stdout.flush()
+
 
 def starting_point(w):
     if len(w)%2 == 0:
