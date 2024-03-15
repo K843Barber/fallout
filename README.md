@@ -3,7 +3,6 @@
 
 ## Setup
 
-Steps to setup are:
     1. Clone it
     2. Enter environment: `source bin/activate` from main directory
     3. `pip3 install -r requirements.txt`
