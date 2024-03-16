@@ -5,7 +5,7 @@ requires-python = ">=3.10"
 line-length = 90
 indent-width = 4
 
-[tool.ruff.int]
+[tool.ruff.lint]
 extend-select=[
     "E501",
     "D"
